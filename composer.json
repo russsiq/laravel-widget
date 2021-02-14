@@ -1,0 +1,42 @@
+{
+    "name": "russsiq/laravel-widget",
+    "description": "Дополнительный функционал для компонентов Laravel 8.x.",
+    "keywords": ["laravel", "components", "widgets"],
+    "type": "library",
+    "license": "MIT",
+    "authors": [{
+        "name": "Рустам Гимранов",
+        "email": "rustam_gimranov@mail.ru",
+        "homepage": "https://github.com/russsiq",
+        "role": "Developer"
+    }],
+    "require": {
+        "php": "8.0.*",
+        "illuminate/support": "8.*"
+    },
+    "require-dev": {
+        "mockery/mockery": "1.4.*",
+        "phpunit/phpunit": "9.5.*"
+    },
+    "autoload": {
+        "psr-4": {
+            "Russsiq\\Widget\\": "src/"
+        }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Russsiq\\Widget\\WidgetServiceProvider"
+            ],
+            "aliases": {
+            }
+        }
+    },
+    "scripts": {
+        "test": "vendor/bin/phpunit",
+        "test-win": "vendor\\bin\\phpunit",
+        "testdox": "vendor\\bin\\phpunit --testdox-html tests/testdox.html"
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true
+}
