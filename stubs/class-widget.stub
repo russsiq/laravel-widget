@@ -1,0 +1,27 @@
+<?php
+
+namespace DummyNamespace;
+
+use Russsiq\Widget\WidgetAbstract;
+
+class DummyClass extends WidgetAbstract
+{
+    /**
+     * Get the template name relative to the widgets directory.
+     *
+     * @var string
+     */
+    protected $template = 'DummyTemplate';
+
+    /**
+     * Get the validation rules that apply to the widget parameters.
+     *
+     * @return array
+     */
+    public function rules(): array
+    {
+        return [
+            //
+        ];
+    }
+}
