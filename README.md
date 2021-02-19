@@ -86,17 +86,27 @@ use Russsiq\Widget\WidgetAbstract;
 class ArticlesFeatured extends WidgetAbstract
 {
     /**
-    * Get the template name relative to the widgets directory.
-    *
-    * @var string
-    */
+     * Get the template name relative to the widgets directory.
+     *
+     * @var string
+     */
     protected $template = 'components.widgets.articles-featured';
 
     /**
-    * Get the validation rules that apply to the widget parameters.
-    *
-    * @return array
-    */
+     * Create a new widget instance.
+     *
+     * @param array $parameters
+     */
+    public function __construct(array $parameters = [])
+    {
+        parent::__construct($parameters);
+    }
+
+    /**
+     * Get the validation rules that apply to the widget parameters.
+     *
+     * @return array
+     */
     public function rules(): array
     {
         return [
