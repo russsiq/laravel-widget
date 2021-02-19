@@ -71,7 +71,7 @@ class MakeWidgetCommand extends GeneratorCommand
             return false;
         }
 
-        if (false === file_put_contents($path, "<div>\n\t<!--  -->\n</div>")) {
+        if (false === file_put_contents($path, "<section>\n\t<!--  -->\n</section>")) {
             $this->error('Can\'t create a widget view!');
 
             return false;
