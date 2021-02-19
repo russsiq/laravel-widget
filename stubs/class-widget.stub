@@ -18,7 +18,7 @@ class DummyClass extends WidgetAbstract
      *
      * @return array
      */
-    public function rules(): array
+    protected function rules(): array
     {
         return [
             //

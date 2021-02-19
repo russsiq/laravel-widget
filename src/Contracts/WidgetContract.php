@@ -8,13 +8,6 @@ use Russsiq\Widget\Contracts\ParameterBagContract;
 interface WidgetContract
 {
     /**
-     * Get the validation rules that apply to the request.
-     *
-     * @return array
-     */
-    public function rules(): array;
-
-    /**
      * Set the ParameterBag instance.
      *
      * @param  ParameterBagContract  $parameters

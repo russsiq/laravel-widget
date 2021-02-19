@@ -146,7 +146,7 @@ abstract class WidgetAbstract extends Component implements WidgetContract
     }
 
     /**
-     * Get the validator instance for the request.
+     * Get the validator instance for the widget parameters.
      *
      * @return Validator
      */
@@ -171,28 +171,42 @@ abstract class WidgetAbstract extends Component implements WidgetContract
     }
 
     /**
-     * Get the default validation rules that apply to the request.
+     * Get the validation rules that apply to the widget parameters.
      *
      * @return array
      */
     protected function validationRules(): array
     {
-        $this->ignoreWidgetMethod('rules');
+        if (method_exists($this, 'rules')) {
+            $this->ignoreWidgetMethod('rules');
 
-        return array_merge_recursive(
-            [
-                'template' => [
-                    'required',
-                    $this->container->make(MustHaveViewRule::class),
-                ],
-                'is_active' => [
-                    'sometimes',
-                    'required',
-                    'boolean',
-                ],
+            return array_merge_recursive(
+                $this->defaultValidationRules(),
+                $this->container->call([$this, 'rules']),
+            );
+        }
+
+        return $this->defaultValidationRules();
+    }
+
+    /**
+     * Get the default validation rules that apply to the widget parameters.
+     *
+     * @return array
+     */
+    protected function defaultValidationRules(): array
+    {
+        return [
+            'template' => [
+                'required',
+                $this->container->make(MustHaveViewRule::class),
             ],
-            $this->container->call([$this, 'rules']),
-        );
+            'is_active' => [
+                'sometimes',
+                'required',
+                'boolean',
+            ],
+        ];
     }
 
     /**
