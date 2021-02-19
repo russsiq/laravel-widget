@@ -31,7 +31,9 @@ abstract class WidgetAbstract extends Component implements WidgetContract
     protected $template;
 
     /**
-     * Create a new component instance.
+     * Create a new widget instance.
+     *
+     * @param array $parameters
      */
     public function __construct(array $parameters = [])
     {
@@ -121,7 +123,7 @@ abstract class WidgetAbstract extends Component implements WidgetContract
     }
 
     /**
-     * Determine if the component should be rendered.
+     * Determine if the widget should be rendered.
      *
      * @return bool
      */
@@ -132,7 +134,7 @@ abstract class WidgetAbstract extends Component implements WidgetContract
     }
 
     /**
-     * Get the view / contents that represent the component.
+     * Get the view / contents that represent the widget.
      *
      * @return Renderable
      */
