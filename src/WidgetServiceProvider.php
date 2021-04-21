@@ -14,18 +14,18 @@ use Russsiq\Widget\Support\Parameters;
 class WidgetServiceProvider extends ServiceProvider
 {
     /**
+     * Short package name.
+     *
+     * @const string
+     */
+    const PACKAGE_NAME = 'laravel-widget';
+
+    /**
      * Package root directory.
      *
      * @const string
      */
-    const SOURCE_DIR = __DIR__.'/../';
-
-    /**
-    * Short package name.
-    *
-    * @const string
-    */
-   const PACKAGE_NAME = 'laravel-widget';
+    const PACKAGE_DIR = __DIR__.'/../';
 
     /**
      * All of the container bindings that should be registered.
@@ -44,7 +44,7 @@ class WidgetServiceProvider extends ServiceProvider
     public function register()
     {
         $this->mergeConfigFrom(
-            $this->sourcePath('config/laravel-widget.php'), 'laravel-widget'
+            $this->packagePath('config/laravel-widget.php'), 'laravel-widget'
         );
     }
 
@@ -55,9 +55,9 @@ class WidgetServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        $this->loadWidgetFiles()
-            ->publishWidgetFiles()
-            ->registerWidgetCommands();
+        $this->configurePublishing();
+        $this->configureCommands();
+        $this->configureViews();
 
         $this->callAfterResolving(
             BladeCompiler::class,
@@ -91,57 +91,54 @@ class WidgetServiceProvider extends ServiceProvider
     }
 
     /**
-     * Load package files.
-     *
-     * @return $this
-     */
-    protected function loadWidgetFiles(): self
-    {
-        $this->loadViewsFrom(
-            $this->sourcePath('resources/views'), 'laravel-widget'
-        );
-
-        return $this;
-    }
-
-    /**
-     * Register package paths to be published by the publish command.
+     * Configure the publishable resources offered by the package.
      *
      * @cmd `php artisan vendor:publish --provider="Russsiq\Widget\WidgetServiceProvider"`
-     *
-     * @return $this
+     * @return void
      */
-    protected function publishWidgetFiles(): self
+    protected function configurePublishing(): void
     {
-        if ($this->app->runningInConsole()) {
-            // @cmd `php artisan vendor:publish --provider="Russsiq\Widget\WidgetServiceProvider" --tag=config`
-            $this->publishes([
-                $this->sourcePath('config/laravel-widget.php') => config_path('laravel-widget.php'),
-            ], 'config');
-
-            // @cmd `php artisan vendor:publish --provider="Russsiq\Widget\WidgetServiceProvider" --tag=views`
-            $this->publishes([
-                $this->sourcePath('resources/views') => resource_path('views/vendor/laravel-widget'),
-            ], 'views');
+        if (! $this->app->runningInConsole()) {
+            return;
         }
 
-        return $this;
+        // @cmd `php artisan vendor:publish --tag=laravel-widget-config`
+        $this->publishes([
+            $this->packagePath('config/laravel-widget.php') => config_path('laravel-widget.php'),
+        ], 'laravel-widget-config');
+
+        // @cmd `php artisan vendor:publish --tag=laravel-widget-views`
+        $this->publishes([
+            $this->packagePath('resources/views') => resource_path('views/vendor/laravel-widget'),
+        ], 'laravel-widget-views');
     }
 
     /**
-     * Register package commands.
+     * Configure the commands offered by the package.
      *
-     * @return $this
+     * @return void
      */
-    protected function registerWidgetCommands(): self
+    protected function configureCommands(): void
     {
-        if ($this->app->runningInConsole()) {
-            $this->commands([
-                MakeWidgetCommand::class,
-            ]);
+        if (! $this->app->runningInConsole()) {
+            return;
         }
 
-        return $this;
+        $this->commands([
+            MakeWidgetCommand::class,
+        ]);
+    }
+
+    /**
+     * Configure the views offered by the package.
+     *
+     * @return void
+     */
+    protected function configureViews(): void
+    {
+        $this->loadViewsFrom(
+            $this->packagePath('resources/views'), 'laravel-widget'
+        );
     }
 
     /**
@@ -150,8 +147,8 @@ class WidgetServiceProvider extends ServiceProvider
      * @param  string  $path
      * @return string
      */
-    protected function sourcePath(string $path): string
+    protected function packagePath(string $path): string
     {
-        return self::SOURCE_DIR.$path;
+        return self::PACKAGE_DIR.$path;
     }
 }

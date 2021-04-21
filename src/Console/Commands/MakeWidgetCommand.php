@@ -118,7 +118,7 @@ class MakeWidgetCommand extends GeneratorCommand
      */
     protected function getStub(): string
     {
-        return WidgetServiceProvider::SOURCE_DIR.'/stubs/class-widget.stub';
+        return WidgetServiceProvider::PACKAGE_DIR.'/stubs/class-widget.stub';
     }
 
     /**
