@@ -43,21 +43,7 @@ class WidgetServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        $this->mergeConfigFrom(
-            $this->packagePath('config/laravel-widget.php'), 'laravel-widget'
-        );
-    }
-
-    /**
-     * Bootstrap services.
-     *
-     * @return void
-     */
-    public function boot()
-    {
-        $this->configurePublishing();
-        $this->configureCommands();
-        $this->configureViews();
+        $this->configure();
 
         $this->callAfterResolving(
             BladeCompiler::class,
@@ -87,6 +73,30 @@ class WidgetServiceProvider extends ServiceProvider
             function (WidgetContract $widget, Container $container) {
                 $widget->validateResolved();
             }
+        );
+    }
+
+    /**
+     * Bootstrap services.
+     *
+     * @return void
+     */
+    public function boot()
+    {
+        $this->configurePublishing();
+        $this->configureCommands();
+        $this->configureViews();
+    }
+
+    /**
+     * Setup the configuration for the package.
+     *
+     * @return void
+     */
+    protected function configure()
+    {
+        $this->mergeConfigFrom(
+            $this->packagePath('config/laravel-widget.php'), 'laravel-widget'
         );
     }
 
