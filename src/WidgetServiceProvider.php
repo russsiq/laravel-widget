@@ -63,7 +63,7 @@ class WidgetServiceProvider extends ServiceProvider
             BladeCompiler::class,
             function (BladeCompiler $compiler, Application $app) {
                 $compiler->componentNamespace(
-                    $app['config']->get(
+                    $app->config->get(
                         'laravel-widget.classes-namespace',
                         $app->getNamespace().'View\\Components\\Widgets'
                     ),
